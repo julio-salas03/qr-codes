@@ -4,10 +4,12 @@ import {
   RadioGroupItem,
   RadioGroupItemLabel,
 } from "~/components/ui/radio-group";
-import { TextField, TextFieldInput } from "~/components/ui/text-field";
+import { TextField, TextFieldTextArea } from "~/components/ui/text-field";
 import { Label } from "~/components/ui/label";
 import { ERROR_CORRECTION_LEVELS } from "./lib/const";
 import QRCode from "qrcode";
+import { buttonVariants } from "~/components/ui/button";
+
 function App() {
   const [data, setData] = createSignal("");
   const [errorCorrectionLevel, setErrorCorrectionLevel] = createSignal<
@@ -37,11 +39,10 @@ function App() {
           class="space-y-3"
         >
           <Label for="data">QR Code data</Label>
-          <TextFieldInput
+          <TextFieldTextArea
             placeholder="E.g. https://google.com"
             name="data"
             id="data"
-            type="text"
           />
         </TextField>
         <div class="space-y-3">
@@ -63,7 +64,12 @@ function App() {
         </div>
       </div>
       <Show when={image()}>
-        <img src={image()} alt="QR Code" />
+        <div>
+          <img src={image()} alt="QR Code" />
+          <a download href={image()} class={buttonVariants({ variant: "default" })}>
+            Download
+          </a>
+        </div>
       </Show>
     </main>
   );
