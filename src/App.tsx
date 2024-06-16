@@ -64,7 +64,14 @@ function App() {
           <Label for="errorCorrectionLevel">Error correction level</Label>
           <RadioGroup
             value={errorCorrectionLevel()}
-            onChange={(value) => setErrorCorrectionLevel(value)}
+            onChange={(value) => {
+              /**
+               * TODO: remove this type assertion
+               */
+              setErrorCorrectionLevel(
+                value as (typeof ERROR_CORRECTION_LEVELS)[number]
+              );
+            }}
             defaultValue={ERROR_CORRECTION_LEVELS[0]}
             name="errorCorrectionLevel"
           >
