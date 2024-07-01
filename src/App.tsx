@@ -10,6 +10,12 @@ import { ERROR_CORRECTION_LEVELS } from "./lib/const";
 import QRCode from "qrcode";
 import { buttonVariants } from "~/components/ui/button";
 import { GitHub } from "./components/icons/github";
+import { AlertCircle } from "./components/icons/alert-circle";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "~/components/ui/popover";
 
 function App() {
   const [data, setData] = createSignal("");
@@ -23,7 +29,11 @@ function App() {
 
     QRCode.toDataURL(
       data(),
-      { errorCorrectionLevel: errorCorrectionLevel() },
+      {
+        errorCorrectionLevel: errorCorrectionLevel(),
+        margin: 2,
+        type: "image/webp",
+      },
       (err, url) => {
         if (err) throw err;
         setImage(url);
@@ -53,7 +63,22 @@ function App() {
             />
           </TextField>
           <div class="space-y-3">
-            <Label for="errorCorrectionLevel">Error correction level</Label>
+            <Label
+              class="space-x-1 flex items-center"
+              for="errorCorrectionLevel"
+            >
+              <span>Error correction level</span>
+              <Popover>
+                <PopoverTrigger>
+                  <AlertCircle />
+                </PopoverTrigger>
+                <PopoverContent>
+                  Allows to successfully scan a QR Code even if the symbol is
+                  dirty or damaged. Higher levels offer a better error
+                  resistance but reduces the symbol's capacity
+                </PopoverContent>
+              </Popover>
+            </Label>
             <RadioGroup
               value={errorCorrectionLevel()}
               onChange={(value) => {

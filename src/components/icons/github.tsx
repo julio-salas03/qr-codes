@@ -1,8 +1,8 @@
 export function GitHub() {
   return (
     <svg
-      width={36}
-      height={36}
+      width="2.25rem"
+      height="2.25rem"
       fill="currentColor"
       role="img"
       viewBox="0 0 24 24"
