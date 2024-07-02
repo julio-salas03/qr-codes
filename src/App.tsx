@@ -67,6 +67,35 @@ function App() {
         </a>
       </nav>
       <main class="container mx-auto">
+        <Collapsible defaultOpen>
+          <CollapsibleTrigger class="flex py-2 space-x-1 mt-4">
+            <span>Advanced settings</span>
+            <span>-{">"}</span>
+          </CollapsibleTrigger>
+          <CollapsibleContent>
+            <Separator class="mb-2" />
+            <Label class="mb-3 inline-block">Image Format</Label>
+            <Select
+              onChange={(value) => setImageFormat(value)}
+              defaultValue={imageFormat()}
+              options={imageFormatKeys}
+              placeholder="Select an image format..."
+              itemComponent={(props) => (
+                <SelectItem class="cursor-pointer" item={props.item}>
+                  {props.item.rawValue.toUpperCase()}
+                </SelectItem>
+              )}
+            >
+              <SelectTrigger aria-label="Image format" class="w-[180px]">
+                <SelectValue<string>>
+                  {(state) => state.selectedOption()?.toUpperCase()}
+                </SelectValue>
+              </SelectTrigger>
+              <SelectContent />
+            </Select>
+            <Separator class="my-2" />
+          </CollapsibleContent>
+        </Collapsible>
         <div class="space-y-4">
           <TextField
             value={data()}
@@ -120,33 +149,7 @@ function App() {
             </RadioGroup>
           </div>
         </div>
-        <Collapsible>
-          <CollapsibleTrigger class="flex py-2 space-x-1 mt-4">
-            <span>Advanced settings</span>
-            <span>-{">"}</span>
-          </CollapsibleTrigger>
-          <CollapsibleContent>
-            <Separator class="mb-2" />
-            <Select
-              onChange={(value) => setImageFormat(value)}
-              defaultValue={imageFormat()}
-              options={imageFormatKeys}
-              placeholder="Select an image format..."
-              itemComponent={(props) => (
-                <SelectItem class="cursor-pointer" item={props.item}>
-                  {props.item.rawValue.toUpperCase()}
-                </SelectItem>
-              )}
-            >
-              <SelectTrigger aria-label="Image format" class="w-[180px]">
-                <SelectValue<string>>
-                  {(state) => state.selectedOption()?.toUpperCase()}
-                </SelectValue>
-              </SelectTrigger>
-              <SelectContent />
-            </Select>
-          </CollapsibleContent>
-        </Collapsible>
+
         <Show when={image()}>
           <div>
             <img class="mx-auto" src={image()} alt="QR Code" />
