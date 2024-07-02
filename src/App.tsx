@@ -6,7 +6,7 @@ import {
 } from "~/components/ui/radio-group";
 import { TextField, TextFieldTextArea } from "~/components/ui/text-field";
 import { Label } from "~/components/ui/label";
-import { ERROR_CORRECTION_LEVELS } from "./lib/const";
+import { ERROR_CORRECTION_LEVELS, IMAGE_FORMATS } from "./lib/const";
 import QRCode from "qrcode";
 import { buttonVariants } from "~/components/ui/button";
 import { GitHub } from "./components/icons/github";
@@ -16,6 +16,21 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "~/components/ui/collapsible";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/ui/select";
+import { objectKeys } from "./lib/utils";
+
+const imageFormatKeys = objectKeys(IMAGE_FORMATS);
 
 function App() {
   const [data, setData] = createSignal("");
@@ -23,6 +38,8 @@ function App() {
     (typeof ERROR_CORRECTION_LEVELS)[number]
   >(ERROR_CORRECTION_LEVELS[0]);
   const [image, setImage] = createSignal("");
+  const [imageFormat, setImageFormat] =
+    createSignal<(typeof imageFormatKeys)[number]>("png");
 
   createEffect(() => {
     if (!data()) return setImage("");
@@ -32,7 +49,7 @@ function App() {
       {
         errorCorrectionLevel: errorCorrectionLevel(),
         margin: 2,
-        type: "image/webp",
+        type: IMAGE_FORMATS[imageFormat()],
       },
       (err, url) => {
         if (err) throw err;
@@ -102,6 +119,29 @@ function App() {
             </RadioGroup>
           </div>
         </div>
+        <Collapsible>
+          <CollapsibleTrigger>Advanced settings</CollapsibleTrigger>
+          <CollapsibleContent>
+            <Select
+              onChange={(value) => setImageFormat(value)}
+              defaultValue={imageFormat()}
+              options={imageFormatKeys}
+              placeholder="Select an image format..."
+              itemComponent={(props) => (
+                <SelectItem class="cursor-pointer" item={props.item}>
+                  {props.item.rawValue.toUpperCase()}
+                </SelectItem>
+              )}
+            >
+              <SelectTrigger aria-label="Image format" class="w-[180px]">
+                <SelectValue<string>>
+                  {(state) => state.selectedOption()?.toUpperCase()}
+                </SelectValue>
+              </SelectTrigger>
+              <SelectContent />
+            </Select>
+          </CollapsibleContent>
+        </Collapsible>
         <Show when={image()}>
           <div>
             <img src={image()} alt="QR Code" />
