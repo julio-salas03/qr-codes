@@ -29,6 +29,7 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 import { objectKeys } from "./lib/utils";
+import { Separator } from "~/components/ui/separator";
 
 const imageFormatKeys = objectKeys(IMAGE_FORMATS);
 
@@ -120,8 +121,12 @@ function App() {
           </div>
         </div>
         <Collapsible>
-          <CollapsibleTrigger>Advanced settings</CollapsibleTrigger>
+          <CollapsibleTrigger class="flex py-2 space-x-1 mt-4">
+            <span>Advanced settings</span>
+            <span>-{">"}</span>
+          </CollapsibleTrigger>
           <CollapsibleContent>
+            <Separator class="mb-2" />
             <Select
               onChange={(value) => setImageFormat(value)}
               defaultValue={imageFormat()}
@@ -144,7 +149,7 @@ function App() {
         </Collapsible>
         <Show when={image()}>
           <div>
-            <img src={image()} alt="QR Code" />
+            <img class="mx-auto" src={image()} alt="QR Code" />
             <a
               download
               href={image()}
