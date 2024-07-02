@@ -30,6 +30,7 @@ import {
 } from "~/components/ui/select";
 import { objectKeys } from "./lib/utils";
 import { Separator } from "~/components/ui/separator";
+import { ArrowDown } from "./components/icons/arrow-down";
 
 const imageFormatKeys = objectKeys(IMAGE_FORMATS);
 
@@ -41,6 +42,7 @@ function App() {
   const [image, setImage] = createSignal("");
   const [imageFormat, setImageFormat] =
     createSignal<(typeof imageFormatKeys)[number]>("png");
+  const [advancedOptionsOpen, setAdvancedOptionsOpen] = createSignal(false);
 
   createEffect(() => {
     if (!data()) return setImage("");
@@ -67,13 +69,19 @@ function App() {
         </a>
       </nav>
       <main class="container mx-auto">
-        <Collapsible defaultOpen>
-          <CollapsibleTrigger class="flex py-2 space-x-1 mt-4">
+        <Collapsible
+          onOpenChange={(open) => setAdvancedOptionsOpen(open)}
+          open={advancedOptionsOpen()}
+        >
+          <CollapsibleTrigger class="flex py-2 space-x-1 mt-4 items-center justify-center">
             <span>Advanced settings</span>
-            <span>-{">"}</span>
+            {/** TODO: rotate this arrow when open */}
+            <ArrowDown
+              classList={{ "rotate-180 relative": advancedOptionsOpen() }}
+            />
           </CollapsibleTrigger>
+          <Separator class="mb-2" />
           <CollapsibleContent>
-            <Separator class="mb-2" />
             <Label class="mb-3 inline-block">Image Format</Label>
             <Select
               onChange={(value) => setImageFormat(value)}
@@ -93,66 +101,63 @@ function App() {
               </SelectTrigger>
               <SelectContent />
             </Select>
-            <Separator class="my-2" />
+            <div class="space-y-3">
+              <Label
+                class="space-x-1 flex items-center"
+                for="errorCorrectionLevel"
+              >
+                <span>Error correction level</span>
+                <Popover>
+                  <PopoverTrigger>
+                    <AlertCircle />
+                  </PopoverTrigger>
+                  <PopoverContent>
+                    Allows to successfully scan a QR Code even if the symbol is
+                    dirty or damaged. Higher levels offer a better error
+                    resistance but reduces the symbol's capacity
+                  </PopoverContent>
+                </Popover>
+              </Label>
+              <RadioGroup
+                value={errorCorrectionLevel()}
+                onChange={(value) => {
+                  /**
+                   * TODO: remove this type assertion
+                   */
+                  setErrorCorrectionLevel(
+                    value as (typeof ERROR_CORRECTION_LEVELS)[number]
+                  );
+                }}
+                defaultValue={ERROR_CORRECTION_LEVELS[0]}
+                name="errorCorrectionLevel"
+              >
+                <For each={ERROR_CORRECTION_LEVELS}>
+                  {(level) => (
+                    <RadioGroupItem value={level}>
+                      <RadioGroupItemLabel>{level}</RadioGroupItemLabel>
+                    </RadioGroupItem>
+                  )}
+                </For>
+              </RadioGroup>
+            </div>
+            <Separator class="mb-2 mt-3" />
           </CollapsibleContent>
         </Collapsible>
         <div class="space-y-4">
-          <TextField
-            value={data()}
-            onChange={(value) => setData(value)}
-            class="space-y-3"
-          >
-            <Label for="data">QR Code data</Label>
-            <TextFieldTextArea
-              placeholder="E.g. https://google.com"
-              name="data"
-              id="data"
-            />
-          </TextField>
-          <div class="space-y-3">
-            <Label
-              class="space-x-1 flex items-center"
-              for="errorCorrectionLevel"
-            >
-              <span>Error correction level</span>
-              <Popover>
-                <PopoverTrigger>
-                  <AlertCircle />
-                </PopoverTrigger>
-                <PopoverContent>
-                  Allows to successfully scan a QR Code even if the symbol is
-                  dirty or damaged. Higher levels offer a better error
-                  resistance but reduces the symbol's capacity
-                </PopoverContent>
-              </Popover>
+          <TextField value={data()} onChange={(value) => setData(value)}>
+            <Label class="space-y-3" for="data">
+              <span>QR Code Data</span>
+              <TextFieldTextArea
+                placeholder="E.g. https://google.com"
+                name="data"
+                id="data"
+              />
             </Label>
-            <RadioGroup
-              value={errorCorrectionLevel()}
-              onChange={(value) => {
-                /**
-                 * TODO: remove this type assertion
-                 */
-                setErrorCorrectionLevel(
-                  value as (typeof ERROR_CORRECTION_LEVELS)[number]
-                );
-              }}
-              defaultValue={ERROR_CORRECTION_LEVELS[0]}
-              name="errorCorrectionLevel"
-            >
-              <For each={ERROR_CORRECTION_LEVELS}>
-                {(level) => (
-                  <RadioGroupItem value={level}>
-                    <RadioGroupItemLabel>{level}</RadioGroupItemLabel>
-                  </RadioGroupItem>
-                )}
-              </For>
-            </RadioGroup>
-          </div>
+          </TextField>
         </div>
 
         <Show when={image()}>
-          <div>
-            <img class="mx-auto" src={image()} alt="QR Code" />
+          <div class="mt-4">
             <a
               download
               href={image()}
@@ -160,6 +165,7 @@ function App() {
             >
               Download
             </a>
+            <img class="mx-auto" src={image()} alt="QR Code" />
           </div>
         </Show>
       </main>
