@@ -1,9 +1,4 @@
-import { createEffect, createSignal, For, Show } from "solid-js";
-import {
-  RadioGroup,
-  RadioGroupItem,
-  RadioGroupItemLabel,
-} from "~/components/ui/radio-group";
+import { createEffect, createSignal, Show } from "solid-js";
 import { TextField, TextFieldTextArea } from "~/components/ui/text-field";
 import { Label } from "~/components/ui/label";
 import { ERROR_CORRECTION_LEVELS, IMAGE_FORMATS } from "./lib/const";
@@ -31,6 +26,7 @@ import {
 import { objectKeys } from "./lib/utils";
 import { Separator } from "~/components/ui/separator";
 import { ArrowDown } from "./components/icons/arrow-down";
+import { Col, Grid } from "~/components/ui/grid";
 
 const imageFormatKeys = objectKeys(IMAGE_FORMATS);
 
@@ -38,7 +34,7 @@ function App() {
   const [data, setData] = createSignal("");
   const [errorCorrectionLevel, setErrorCorrectionLevel] = createSignal<
     (typeof ERROR_CORRECTION_LEVELS)[number]
-  >(ERROR_CORRECTION_LEVELS[0]);
+  >(ERROR_CORRECTION_LEVELS[1]);
   const [image, setImage] = createSignal("");
   const [imageFormat, setImageFormat] =
     createSignal<(typeof imageFormatKeys)[number]>("png");
@@ -84,64 +80,77 @@ function App() {
           </CollapsibleTrigger>
           <Separator class="mb-2" />
           <CollapsibleContent>
-            <Label class="mb-3 inline-block">Image Format</Label>
-            <Select
-              onChange={(value) => setImageFormat(value)}
-              defaultValue={imageFormat()}
-              options={imageFormatKeys}
-              placeholder="Select an image format..."
-              itemComponent={(props) => (
-                <SelectItem class="cursor-pointer" item={props.item}>
-                  {props.item.rawValue.toUpperCase()}
-                </SelectItem>
-              )}
-            >
-              <SelectTrigger aria-label="Image format" class="w-[180px]">
-                <SelectValue<string>>
-                  {(state) => state.selectedOption()?.toUpperCase()}
-                </SelectValue>
-              </SelectTrigger>
-              <SelectContent />
-            </Select>
-            <div class="space-y-3">
-              <Label
-                class="space-x-1 flex items-center"
-                for="errorCorrectionLevel"
-              >
-                <span>Error correction level</span>
-                <Popover>
-                  <PopoverTrigger>
-                    <AlertCircle />
-                  </PopoverTrigger>
-                  <PopoverContent>
-                    Allows to successfully scan a QR Code even if the symbol is
-                    dirty or damaged. Higher levels offer a better error
-                    resistance but reduces the symbol's capacity
-                  </PopoverContent>
-                </Popover>
-              </Label>
-              <RadioGroup
-                value={errorCorrectionLevel()}
-                onChange={(value) => {
-                  /**
-                   * TODO: remove this type assertion
-                   */
-                  setErrorCorrectionLevel(
-                    value as (typeof ERROR_CORRECTION_LEVELS)[number]
-                  );
-                }}
-                defaultValue={ERROR_CORRECTION_LEVELS[0]}
-                name="errorCorrectionLevel"
-              >
-                <For each={ERROR_CORRECTION_LEVELS}>
-                  {(level) => (
-                    <RadioGroupItem value={level}>
-                      <RadioGroupItemLabel>{level}</RadioGroupItemLabel>
-                    </RadioGroupItem>
+            <Grid cols={2} class="w-full gap-2">
+              <Col>
+                <Label class="space-x-1 flex items-center mb-3">
+                  <span>Image Format</span>
+                  <Popover>
+                    <PopoverTrigger>
+                      <AlertCircle />
+                    </PopoverTrigger>
+                    <PopoverContent>
+                      Format used to export the QR Code when using the
+                      "download" button
+                    </PopoverContent>
+                  </Popover>
+                </Label>
+                <Select
+                  onChange={(value) => setImageFormat(value)}
+                  defaultValue={imageFormat()}
+                  options={imageFormatKeys}
+                  placeholder="Select an image format..."
+                  itemComponent={(props) => (
+                    <SelectItem class="cursor-pointer" item={props.item}>
+                      {props.item.rawValue.toUpperCase()}
+                    </SelectItem>
                   )}
-                </For>
-              </RadioGroup>
-            </div>
+                >
+                  <SelectTrigger aria-label="Image format" class="w-[180px]">
+                    <SelectValue<string>>
+                      {(state) => state.selectedOption().toUpperCase()}
+                    </SelectValue>
+                  </SelectTrigger>
+                  <SelectContent />
+                </Select>
+              </Col>
+              <Col>
+                <Label
+                  class="space-x-1 flex items-center mb-3"
+                  for="errorCorrectionLevel"
+                >
+                  <span>Error Correction Level</span>
+                  <Popover>
+                    <PopoverTrigger>
+                      <AlertCircle />
+                    </PopoverTrigger>
+                    <PopoverContent>
+                      Allows to successfully scan a QR Code even if the symbol
+                      is dirty or damaged. Higher levels offer a better error
+                      resistance but reduces the symbol's capacity
+                    </PopoverContent>
+                  </Popover>
+                </Label>
+                <Select
+                  onChange={(value) => setErrorCorrectionLevel(value)}
+                  value={errorCorrectionLevel()}
+                  options={ERROR_CORRECTION_LEVELS.slice()}
+                  placeholder="Select an image format..."
+                  itemComponent={(props) => (
+                    <SelectItem class="cursor-pointer" item={props.item}>
+                      {props.item.rawValue.toUpperCase()}
+                    </SelectItem>
+                  )}
+                >
+                  <SelectTrigger aria-label="Image format" class="w-[180px]">
+                    <SelectValue<string>>
+                      {(state) => state.selectedOption().toUpperCase()}
+                    </SelectValue>
+                  </SelectTrigger>
+                  <SelectContent />
+                </Select>
+              </Col>
+            </Grid>
+
             <Separator class="mb-2 mt-3" />
           </CollapsibleContent>
         </Collapsible>
