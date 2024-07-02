@@ -75,9 +75,11 @@ function App() {
         >
           <CollapsibleTrigger class="flex py-2 space-x-1 mt-4 items-center justify-center">
             <span>Advanced settings</span>
-            {/** TODO: rotate this arrow when open */}
             <ArrowDown
-              classList={{ "rotate-180 relative": advancedOptionsOpen() }}
+              classList={{
+                "rotate-180 relative pb-1": advancedOptionsOpen(),
+                "pt-1": !advancedOptionsOpen(),
+              }}
             />
           </CollapsibleTrigger>
           <Separator class="mb-2" />
