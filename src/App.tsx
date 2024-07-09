@@ -27,6 +27,7 @@ import { objectKeys } from "./lib/utils";
 import { Separator } from "~/components/ui/separator";
 import { ArrowDown } from "./components/icons/arrow-down";
 import { Col, Grid } from "~/components/ui/grid";
+import { NumberField, NumberFieldInput } from "~/components/ui/number-field";
 
 const imageFormatKeys = objectKeys(IMAGE_FORMATS);
 
@@ -39,6 +40,8 @@ function App() {
   const [imageFormat, setImageFormat] =
     createSignal<(typeof imageFormatKeys)[number]>("png");
   const [advancedOptionsOpen, setAdvancedOptionsOpen] = createSignal(false);
+  const [margin, setMargin] = createSignal(4);
+  const [scale, setScale] = createSignal(4);
 
   createEffect(() => {
     if (!data()) return setImage("");
@@ -47,7 +50,8 @@ function App() {
       data(),
       {
         errorCorrectionLevel: errorCorrectionLevel(),
-        margin: 2,
+        margin: margin(),
+        scale: scale(),
         type: IMAGE_FORMATS[imageFormat()],
       },
       (err, url) => {
@@ -105,7 +109,7 @@ function App() {
                     </SelectItem>
                   )}
                 >
-                  <SelectTrigger aria-label="Image format" class="w-[180px]">
+                  <SelectTrigger aria-label="Image format">
                     <SelectValue<string>>
                       {(state) => state.selectedOption().toUpperCase()}
                     </SelectValue>
@@ -141,13 +145,57 @@ function App() {
                     </SelectItem>
                   )}
                 >
-                  <SelectTrigger aria-label="Image format" class="w-[180px]">
+                  <SelectTrigger aria-label="Image format">
                     <SelectValue<string>>
                       {(state) => state.selectedOption().toUpperCase()}
                     </SelectValue>
                   </SelectTrigger>
                   <SelectContent />
                 </Select>
+              </Col>
+              <Col>
+                <Label class="space-x-1 flex items-center mb-3">
+                  <span>Margin</span>
+                  <Popover>
+                    <PopoverTrigger>
+                      <AlertCircle />
+                    </PopoverTrigger>
+                    <PopoverContent>
+                      Define how much wide the quiet zone should be.
+                    </PopoverContent>
+                  </Popover>
+                </Label>
+                <NumberField
+                  onChange={(value) => setMargin(Number(value))}
+                  defaultValue={4}
+                  minValue={1}
+                >
+                  <div class="relative">
+                    <NumberFieldInput />
+                  </div>
+                </NumberField>
+              </Col>
+              <Col>
+                <Label class="space-x-1 flex items-center mb-3">
+                  <span>Scale</span>
+                  <Popover>
+                    <PopoverTrigger>
+                      <AlertCircle />
+                    </PopoverTrigger>
+                    <PopoverContent>
+                      A value of 1 means 1px per modules (black dots).
+                    </PopoverContent>
+                  </Popover>
+                </Label>
+                <NumberField
+                  onChange={(value) => setScale(Number(value))}
+                  defaultValue={4}
+                  minValue={1}
+                >
+                  <div class="relative">
+                    <NumberFieldInput />
+                  </div>
+                </NumberField>
               </Col>
             </Grid>
 
@@ -176,7 +224,11 @@ function App() {
             >
               Download
             </a>
-            <img class="mx-auto" src={image()} alt="QR Code" />
+            <img
+              class="mx-auto border-4 border-black"
+              src={image()}
+              alt="QR Code"
+            />
           </div>
         </Show>
       </main>
