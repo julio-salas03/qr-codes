@@ -5,12 +5,6 @@ import { ERROR_CORRECTION_LEVELS, IMAGE_FORMATS } from "./lib/const";
 import QRCode from "qrcode";
 import { buttonVariants } from "~/components/ui/button";
 import { GitHub } from "./components/icons/github";
-import { AlertCircle } from "./components/icons/alert-circle";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "~/components/ui/popover";
 import {
   Collapsible,
   CollapsibleContent,
@@ -30,6 +24,7 @@ import { Col, Grid } from "~/components/ui/grid";
 import { NumberField, NumberFieldInput } from "~/components/ui/number-field";
 import ThemeProvider from "./components/ThemeProvider";
 import ThemePicker from "./components/ThemePicker";
+import InputTooltip from "./components/InputTooltip";
 
 const imageFormatKeys = objectKeys(IMAGE_FORMATS);
 
@@ -92,15 +87,10 @@ function App() {
                 <Col>
                   <Label class="space-x-1 flex items-center mb-3">
                     <span>Image Format</span>
-                    <Popover>
-                      <PopoverTrigger>
-                        <AlertCircle />
-                      </PopoverTrigger>
-                      <PopoverContent>
-                        Format used to export the QR Code when using the
-                        "download" button
-                      </PopoverContent>
-                    </Popover>
+                    <InputTooltip>
+                      Format used to export the QR Code when using the
+                      "download" button
+                    </InputTooltip>
                   </Label>
                   <Select
                     onChange={(value) => setImageFormat(value)}
@@ -127,16 +117,11 @@ function App() {
                     for="errorCorrectionLevel"
                   >
                     <span>Error Correction Level</span>
-                    <Popover>
-                      <PopoverTrigger>
-                        <AlertCircle />
-                      </PopoverTrigger>
-                      <PopoverContent>
-                        Allows to successfully scan a QR Code even if the symbol
-                        is dirty or damaged. Higher levels offer a better error
-                        resistance but reduces the symbol's capacity
-                      </PopoverContent>
-                    </Popover>
+                    <InputTooltip>
+                      Allows to successfully scan a QR Code even if the symbol
+                      is dirty or damaged. Higher levels offer a better error
+                      resistance but reduces the symbol's capacity
+                    </InputTooltip>
                   </Label>
                   <Select
                     onChange={(value) => setErrorCorrectionLevel(value)}
@@ -160,14 +145,9 @@ function App() {
                 <Col>
                   <Label class="space-x-1 flex items-center mb-3">
                     <span>Margin</span>
-                    <Popover>
-                      <PopoverTrigger>
-                        <AlertCircle />
-                      </PopoverTrigger>
-                      <PopoverContent>
-                        Define how much wide the quiet zone should be.
-                      </PopoverContent>
-                    </Popover>
+                    <InputTooltip>
+                      Define how much wide the quiet zone should be.
+                    </InputTooltip>
                   </Label>
                   <NumberField
                     onChange={(value) => setMargin(Number(value))}
@@ -182,14 +162,9 @@ function App() {
                 <Col>
                   <Label class="space-x-1 flex items-center mb-3">
                     <span>Scale</span>
-                    <Popover>
-                      <PopoverTrigger>
-                        <AlertCircle />
-                      </PopoverTrigger>
-                      <PopoverContent>
-                        A value of 1 means 1px per modules (black dots).
-                      </PopoverContent>
-                    </Popover>
+                    <InputTooltip>
+                      A value of 1 means 1px per modules (black dots).
+                    </InputTooltip>
                   </Label>
                   <NumberField
                     onChange={(value) => setScale(Number(value))}
