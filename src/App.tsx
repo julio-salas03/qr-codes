@@ -28,6 +28,8 @@ import { Separator } from "~/components/ui/separator";
 import { ArrowDown } from "./components/icons/arrow-down";
 import { Col, Grid } from "~/components/ui/grid";
 import { NumberField, NumberFieldInput } from "~/components/ui/number-field";
+import ThemeProvider from "./components/ThemeProvider";
+import ThemePicker from "./components/ThemePicker";
 
 const imageFormatKeys = objectKeys(IMAGE_FORMATS);
 
@@ -62,177 +64,180 @@ function App() {
   });
 
   return (
-    <div>
-      <nav class="bg-black h-14 flex text-white items-center justify-end px-6">
-        <a target="_blank" href="https://github.com/julio-salas03/qr-codes">
-          <GitHub />
-        </a>
-      </nav>
-      <main class="container mx-auto">
-        <Collapsible
-          onOpenChange={(open) => setAdvancedOptionsOpen(open)}
-          open={advancedOptionsOpen()}
-        >
-          <CollapsibleTrigger class="flex py-2 space-x-1 mt-4 items-center justify-center">
-            <span>Advanced settings</span>
-            <ArrowDown
-              classList={{
-                "rotate-180 relative pb-1": advancedOptionsOpen(),
-                "pt-1": !advancedOptionsOpen(),
-              }}
-            />
-          </CollapsibleTrigger>
-          <Separator class="mb-2" />
-          <CollapsibleContent>
-            <Grid cols={2} class="w-full gap-2">
-              <Col>
-                <Label class="space-x-1 flex items-center mb-3">
-                  <span>Image Format</span>
-                  <Popover>
-                    <PopoverTrigger>
-                      <AlertCircle />
-                    </PopoverTrigger>
-                    <PopoverContent>
-                      Format used to export the QR Code when using the
-                      "download" button
-                    </PopoverContent>
-                  </Popover>
-                </Label>
-                <Select
-                  onChange={(value) => setImageFormat(value)}
-                  defaultValue={imageFormat()}
-                  options={imageFormatKeys}
-                  placeholder="Select an image format..."
-                  itemComponent={(props) => (
-                    <SelectItem class="cursor-pointer" item={props.item}>
-                      {props.item.rawValue.toUpperCase()}
-                    </SelectItem>
-                  )}
-                >
-                  <SelectTrigger aria-label="Image format">
-                    <SelectValue<string>>
-                      {(state) => state.selectedOption().toUpperCase()}
-                    </SelectValue>
-                  </SelectTrigger>
-                  <SelectContent />
-                </Select>
-              </Col>
-              <Col>
-                <Label
-                  class="space-x-1 flex items-center mb-3"
-                  for="errorCorrectionLevel"
-                >
-                  <span>Error Correction Level</span>
-                  <Popover>
-                    <PopoverTrigger>
-                      <AlertCircle />
-                    </PopoverTrigger>
-                    <PopoverContent>
-                      Allows to successfully scan a QR Code even if the symbol
-                      is dirty or damaged. Higher levels offer a better error
-                      resistance but reduces the symbol's capacity
-                    </PopoverContent>
-                  </Popover>
-                </Label>
-                <Select
-                  onChange={(value) => setErrorCorrectionLevel(value)}
-                  value={errorCorrectionLevel()}
-                  options={ERROR_CORRECTION_LEVELS.slice()}
-                  placeholder="Select an image format..."
-                  itemComponent={(props) => (
-                    <SelectItem class="cursor-pointer" item={props.item}>
-                      {props.item.rawValue.toUpperCase()}
-                    </SelectItem>
-                  )}
-                >
-                  <SelectTrigger aria-label="Image format">
-                    <SelectValue<string>>
-                      {(state) => state.selectedOption().toUpperCase()}
-                    </SelectValue>
-                  </SelectTrigger>
-                  <SelectContent />
-                </Select>
-              </Col>
-              <Col>
-                <Label class="space-x-1 flex items-center mb-3">
-                  <span>Margin</span>
-                  <Popover>
-                    <PopoverTrigger>
-                      <AlertCircle />
-                    </PopoverTrigger>
-                    <PopoverContent>
-                      Define how much wide the quiet zone should be.
-                    </PopoverContent>
-                  </Popover>
-                </Label>
-                <NumberField
-                  onChange={(value) => setMargin(Number(value))}
-                  defaultValue={4}
-                  minValue={1}
-                >
-                  <div class="relative">
-                    <NumberFieldInput />
-                  </div>
-                </NumberField>
-              </Col>
-              <Col>
-                <Label class="space-x-1 flex items-center mb-3">
-                  <span>Scale</span>
-                  <Popover>
-                    <PopoverTrigger>
-                      <AlertCircle />
-                    </PopoverTrigger>
-                    <PopoverContent>
-                      A value of 1 means 1px per modules (black dots).
-                    </PopoverContent>
-                  </Popover>
-                </Label>
-                <NumberField
-                  onChange={(value) => setScale(Number(value))}
-                  defaultValue={4}
-                  minValue={1}
-                >
-                  <div class="relative">
-                    <NumberFieldInput />
-                  </div>
-                </NumberField>
-              </Col>
-            </Grid>
-
-            <Separator class="mb-2 mt-3" />
-          </CollapsibleContent>
-        </Collapsible>
-        <div class="space-y-4">
-          <TextField value={data()} onChange={(value) => setData(value)}>
-            <Label class="space-y-3" for="data">
-              <span>QR Code Data</span>
-              <TextFieldTextArea
-                placeholder="E.g. https://google.com"
-                name="data"
-                id="data"
+    <ThemeProvider>
+      <div class="text-foreground bg-background min-h-screen">
+        <nav class="h-14 flex items-center justify-end px-6 border-b gap-2">
+          <a target="_blank" href="https://github.com/julio-salas03/qr-codes">
+            <GitHub />
+          </a>
+          <ThemePicker />
+        </nav>
+        <main class="container mx-auto ">
+          <Collapsible
+            onOpenChange={(open) => setAdvancedOptionsOpen(open)}
+            open={advancedOptionsOpen()}
+          >
+            <CollapsibleTrigger class="flex py-2 space-x-1 mt-4 items-center justify-center">
+              <span>Advanced settings</span>
+              <ArrowDown
+                classList={{
+                  "rotate-180 relative pb-1": advancedOptionsOpen(),
+                  "pt-1": !advancedOptionsOpen(),
+                }}
               />
-            </Label>
-          </TextField>
-        </div>
+            </CollapsibleTrigger>
+            <Separator class="mb-2" />
+            <CollapsibleContent>
+              <Grid cols={2} class="w-full gap-2">
+                <Col>
+                  <Label class="space-x-1 flex items-center mb-3">
+                    <span>Image Format</span>
+                    <Popover>
+                      <PopoverTrigger>
+                        <AlertCircle />
+                      </PopoverTrigger>
+                      <PopoverContent>
+                        Format used to export the QR Code when using the
+                        "download" button
+                      </PopoverContent>
+                    </Popover>
+                  </Label>
+                  <Select
+                    onChange={(value) => setImageFormat(value)}
+                    defaultValue={imageFormat()}
+                    options={imageFormatKeys}
+                    placeholder="Select an image format..."
+                    itemComponent={(props) => (
+                      <SelectItem class="cursor-pointer" item={props.item}>
+                        {props.item.rawValue.toUpperCase()}
+                      </SelectItem>
+                    )}
+                  >
+                    <SelectTrigger aria-label="Image format">
+                      <SelectValue<string>>
+                        {(state) => state.selectedOption().toUpperCase()}
+                      </SelectValue>
+                    </SelectTrigger>
+                    <SelectContent />
+                  </Select>
+                </Col>
+                <Col>
+                  <Label
+                    class="space-x-1 flex items-center mb-3"
+                    for="errorCorrectionLevel"
+                  >
+                    <span>Error Correction Level</span>
+                    <Popover>
+                      <PopoverTrigger>
+                        <AlertCircle />
+                      </PopoverTrigger>
+                      <PopoverContent>
+                        Allows to successfully scan a QR Code even if the symbol
+                        is dirty or damaged. Higher levels offer a better error
+                        resistance but reduces the symbol's capacity
+                      </PopoverContent>
+                    </Popover>
+                  </Label>
+                  <Select
+                    onChange={(value) => setErrorCorrectionLevel(value)}
+                    value={errorCorrectionLevel()}
+                    options={ERROR_CORRECTION_LEVELS.slice()}
+                    placeholder="Select an image format..."
+                    itemComponent={(props) => (
+                      <SelectItem class="cursor-pointer" item={props.item}>
+                        {props.item.rawValue.toUpperCase()}
+                      </SelectItem>
+                    )}
+                  >
+                    <SelectTrigger aria-label="Image format">
+                      <SelectValue<string>>
+                        {(state) => state.selectedOption().toUpperCase()}
+                      </SelectValue>
+                    </SelectTrigger>
+                    <SelectContent />
+                  </Select>
+                </Col>
+                <Col>
+                  <Label class="space-x-1 flex items-center mb-3">
+                    <span>Margin</span>
+                    <Popover>
+                      <PopoverTrigger>
+                        <AlertCircle />
+                      </PopoverTrigger>
+                      <PopoverContent>
+                        Define how much wide the quiet zone should be.
+                      </PopoverContent>
+                    </Popover>
+                  </Label>
+                  <NumberField
+                    onChange={(value) => setMargin(Number(value))}
+                    defaultValue={4}
+                    minValue={1}
+                  >
+                    <div class="relative">
+                      <NumberFieldInput />
+                    </div>
+                  </NumberField>
+                </Col>
+                <Col>
+                  <Label class="space-x-1 flex items-center mb-3">
+                    <span>Scale</span>
+                    <Popover>
+                      <PopoverTrigger>
+                        <AlertCircle />
+                      </PopoverTrigger>
+                      <PopoverContent>
+                        A value of 1 means 1px per modules (black dots).
+                      </PopoverContent>
+                    </Popover>
+                  </Label>
+                  <NumberField
+                    onChange={(value) => setScale(Number(value))}
+                    defaultValue={4}
+                    minValue={1}
+                  >
+                    <div class="relative">
+                      <NumberFieldInput />
+                    </div>
+                  </NumberField>
+                </Col>
+              </Grid>
 
-        <Show when={image()}>
-          <div class="mt-4">
-            <a
-              download
-              href={image()}
-              class={buttonVariants({ variant: "default" })}
-            >
-              Download
-            </a>
-            <img
-              class="mx-auto border-4 border-black"
-              src={image()}
-              alt="QR Code"
-            />
+              <Separator class="mb-2 mt-3" />
+            </CollapsibleContent>
+          </Collapsible>
+          <div class="space-y-4">
+            <TextField value={data()} onChange={(value) => setData(value)}>
+              <Label class="space-y-3" for="data">
+                <span>QR Code Data</span>
+                <TextFieldTextArea
+                  placeholder="E.g. https://google.com"
+                  name="data"
+                  id="data"
+                />
+              </Label>
+            </TextField>
           </div>
-        </Show>
-      </main>
-    </div>
+
+          <Show when={image()}>
+            <div class="mt-4">
+              <a
+                download
+                href={image()}
+                class={buttonVariants({ variant: "default" })}
+              >
+                Download
+              </a>
+              <img
+                class="mx-auto border-4 border-background"
+                src={image()}
+                alt="QR Code"
+              />
+            </div>
+          </Show>
+        </main>
+      </div>
+    </ThemeProvider>
   );
 }
 
