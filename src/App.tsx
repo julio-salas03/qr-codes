@@ -17,7 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import { objectKeys } from "./lib/utils";
+import { download, objectKeys } from "./lib/utils";
 import { Separator } from "~/components/ui/separator";
 import { ArrowDown } from "./components/icons/arrow-down";
 import { Col, Grid } from "~/components/ui/grid";
@@ -25,6 +25,7 @@ import { NumberField, NumberFieldInput } from "~/components/ui/number-field";
 import ThemeProvider from "./components/ThemeProvider";
 import ThemePicker from "./components/ThemePicker";
 import InputTooltip from "./components/InputTooltip";
+import { Button } from "~/components/ui/button";
 
 const imageFormatKeys = objectKeys(IMAGE_FORMATS);
 
@@ -62,12 +63,21 @@ function App() {
     <ThemeProvider>
       <div class="text-foreground bg-background min-h-screen">
         <nav class="h-14 flex items-center justify-end px-6 border-b gap-2">
-          <a target="_blank" href="https://github.com/julio-salas03/qr-codes">
+          <a
+            class={buttonVariants({
+              variant: "ghost",
+              class: "w-9 !px-0",
+              size: "sm",
+            })}
+            target="_blank"
+            href="https://github.com/julio-salas03/qr-codes"
+          >
             <GitHub />
+            <span class="sr-only">check the project on github</span>
           </a>
           <ThemePicker />
         </nav>
-        <main class="container mx-auto ">
+        <form class="container mx-auto">
           <Collapsible
             onOpenChange={(open) => setAdvancedOptionsOpen(open)}
             open={advancedOptionsOpen()}
@@ -193,24 +203,27 @@ function App() {
               </Label>
             </TextField>
           </div>
-
+          <div class="mt-3 flex gap-2">
+            <Button type="submit">Generate QR Code</Button>
+            <Button
+              type="button"
+              variant="secondary"
+              disabled={!image()}
+              onClick={() => download(image())}
+            >
+              Download
+            </Button>
+          </div>
           <Show when={image()}>
             <div class="mt-4">
-              <a
-                download
-                href={image()}
-                class={buttonVariants({ variant: "default" })}
-              >
-                Download
-              </a>
               <img
-                class="mx-auto border-4 border-background"
+                class="mx-auto border-4 border-foreground"
                 src={image()}
                 alt="QR Code"
               />
             </div>
           </Show>
-        </main>
+        </form>
       </div>
     </ThemeProvider>
   );
