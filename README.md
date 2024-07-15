@@ -10,7 +10,7 @@ This project is still in development. You can check out the [issues tab](https:/
 
 ## Technical details
 
-I'm using [solid-ui](https://www.solid-ui.com/docs/introduction) as my components library and [solid-icons](https://solid-icons.vercel.app/) to get the icons in the `src/components/icons` folder.
+I'm using [solid-ui](https://www.solid-ui.com/docs/introduction) as my components library and [solid-icons](https://solid-icons.vercel.app/) `Heroicons` to get the icons in the `src/components/icons` folder.
 
 As mentioned before, I'm using [qrcode](https://www.npmjs.com/package/qrcode) for generating the codes. It provides a flexible yet powerful API that works on both the browser and server. It's also quite small at [24.1kb when minified](https://bundlephobia.com/package/qrcode@1.5.3).
 
