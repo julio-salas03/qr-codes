@@ -24,11 +24,10 @@ import { Col, Grid } from "~/components/ui/grid";
 import { NumberField, NumberFieldInput } from "~/components/ui/number-field";
 import ThemeProvider from "./components/ThemeProvider";
 import ThemePicker from "./components/ThemePicker";
-import InputTooltip from "./components/InputTooltip";
 import { Button } from "~/components/ui/button";
-import { Description as NumberFieldDescription } from "@kobalte/core/number-field";
 import { createForm } from "@felte/solid";
 import { HiddenSelect } from "@kobalte/core/select";
+import InputTooltip from "./components/InputTooltip";
 
 const DEFAULT_FORM_VALUES = {
   data: "",
@@ -60,7 +59,6 @@ function App() {
       );
     },
   });
-
 
   return (
     <ThemeProvider>
@@ -98,91 +96,94 @@ function App() {
             <CollapsibleContent>
               <Grid cols={2} class="w-full gap-2">
                 <Col>
-                  <Label>
-                    <span class="space-x-1 flex items-center mb-3">
-                      <span>Image Format</span>
-                      <InputTooltip>
-                        Format used to export the QR Code when using the
-                        "download" button
-                      </InputTooltip>
-                    </span>
-                    <Select
-                      name="imageFormat"
-                      options={Object.values(IMAGE_FORMATS)}
-                      defaultValue={DEFAULT_FORM_VALUES.imageFormat}
-                      itemComponent={(props) => (
-                        <SelectItem class="cursor-pointer" item={props.item}>
-                          {props.item.rawValue
-                            .replace("image/", "")
-                            .toUpperCase()}
-                        </SelectItem>
-                      )}
-                      disallowEmptySelection
+                  <div class="space-x-1 flex items-center mb-3">
+                    <Label for="imageFormat">Image Format</Label>
+                    <InputTooltip
+                      triggerText="display image format field information."
+                      title="Image Format field description"
                     >
-                      <HiddenSelect />
-                      <SelectTrigger aria-label="Image format">
-                        <SelectValue<string>>
-                          {(state) =>
-                            state
-                              .selectedOption()
-                              .replace("image/", "")
-                              .toUpperCase()
-                          }
-                        </SelectValue>
-                      </SelectTrigger>
-                      <SelectContent />
-                    </Select>
-                  </Label>
+                      Format used to export the QR Code when using the
+                      "download" button.
+                    </InputTooltip>
+                  </div>
+                  <Select
+                    name="imageFormat"
+                    options={Object.values(IMAGE_FORMATS)}
+                    defaultValue={DEFAULT_FORM_VALUES.imageFormat}
+                    itemComponent={(props) => (
+                      <SelectItem class="cursor-pointer" item={props.item}>
+                        {props.item.rawValue
+                          .replace("image/", "")
+                          .toUpperCase()}
+                      </SelectItem>
+                    )}
+                    disallowEmptySelection
+                  >
+                    <HiddenSelect />
+                    <SelectTrigger aria-label="Image format">
+                      <SelectValue<string>>
+                        {(state) =>
+                          state
+                            .selectedOption()
+                            .replace("image/", "")
+                            .toUpperCase()
+                        }
+                      </SelectValue>
+                    </SelectTrigger>
+                    <SelectContent />
+                  </Select>
                 </Col>
                 <Col>
-                  <Label for="errorCorrectionLevel">
-                    <span class="space-x-1 flex items-center mb-3">
+                  <div class="space-x-1 flex items-center mb-3">
+                    <Label for="errorCorrectionLevel">
                       <span>Error Correction Level</span>
-                      <InputTooltip>
-                        Allows to successfully scan a QR Code even if the symbol
-                        is dirty or damaged. Higher levels offer a better error
-                        resistance but reduces the symbol's capacity
-                      </InputTooltip>
-                    </span>
-                    <Select
-                      name="errorCorrectionLevel"
-                      defaultValue={DEFAULT_FORM_VALUES.errorCorrectionLevel}
-                      options={Object.values(ERROR_CORRECTION_LEVEL)}
-                      itemComponent={(props) => (
-                        <SelectItem class="cursor-pointer" item={props.item}>
-                          {props.item.rawValue.toUpperCase()}
-                        </SelectItem>
-                      )}
-                      disallowEmptySelection
+                    </Label>
+                    <InputTooltip
+                      triggerText="display error correction level field information."
+                      title="Error Correction Level field description"
                     >
-                      <HiddenSelect />
-                      <SelectTrigger aria-label="Image format">
-                        <SelectValue<string>>
-                          {(state) => state.selectedOption().toUpperCase()}
-                        </SelectValue>
-                      </SelectTrigger>
-                      <SelectContent />
-                    </Select>
-                  </Label>
+                      Allows to successfully scan a QR Code even if the symbol
+                      is dirty or damaged. Higher levels offer a better error
+                      resistance but reduces the symbol's capacity.
+                    </InputTooltip>
+                  </div>
+                  <Select
+                    name="errorCorrectionLevel"
+                    defaultValue={DEFAULT_FORM_VALUES.errorCorrectionLevel}
+                    options={Object.values(ERROR_CORRECTION_LEVEL)}
+                    itemComponent={(props) => (
+                      <SelectItem class="cursor-pointer" item={props.item}>
+                        {props.item.rawValue.toUpperCase()}
+                      </SelectItem>
+                    )}
+                    disallowEmptySelection
+                  >
+                    <HiddenSelect />
+                    <SelectTrigger aria-label="Image format">
+                      <SelectValue<string>>
+                        {(state) => state.selectedOption().toUpperCase()}
+                      </SelectValue>
+                    </SelectTrigger>
+                    <SelectContent />
+                  </Select>
                 </Col>
                 <Col>
                   <NumberField
                     defaultValue={DEFAULT_FORM_VALUES.margin}
                     minValue={1}
                   >
-                    <Label>
-                      <span class="space-x-1 flex items-center mb-3">
+                    <div class="space-x-1 flex items-center mb-3">
+                      <Label for="margin">
                         <span>Margin</span>
-                        <InputTooltip>
-                          <NumberFieldDescription>
-                            Define how much wide the quiet zone should be.
-                          </NumberFieldDescription>
-                        </InputTooltip>
-                      </span>
-                      <span class="relative block">
-                        <NumberFieldInput name="margin" />
-                      </span>
-                    </Label>
+                      </Label>
+                      <InputTooltip
+                        triggerText="display margin field information."
+                        title="Margin field description"
+                      >
+                        Define how much wide the quiet zone should be.
+                      </InputTooltip>
+                    </div>
+                    <NumberFieldInput name="margin" />
                   </NumberField>
                 </Col>
                 <Col>
@@ -190,19 +191,16 @@ function App() {
                     defaultValue={DEFAULT_FORM_VALUES.scale}
                     minValue={1}
                   >
-                    <Label>
-                      <span class="space-x-1 flex items-center mb-3">
-                        <span>Scale</span>
-                        <InputTooltip>
-                          <NumberFieldDescription>
-                            A value of 1 means 1px per modules (black dots).
-                          </NumberFieldDescription>
-                        </InputTooltip>
-                      </span>
-                      <span class="relative block">
-                        <NumberFieldInput name="scale" />
-                      </span>
-                    </Label>
+                    <div class="space-x-1 flex items-center mb-3">
+                      <Label for="scale">Scale</Label>
+                      <InputTooltip
+                        triggerText="display scale field information."
+                        title="Scale field description"
+                      >
+                        A value of 1 means 1px per modules (black dots).
+                      </InputTooltip>
+                    </div>
+                    <NumberFieldInput name="scale" />
                   </NumberField>
                 </Col>
               </Grid>

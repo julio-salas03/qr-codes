@@ -12,6 +12,7 @@ export default function Sun() {
       height="1.5em"
       width="1.5em"
     >
+      <title>sun</title>
       <path d="M12 7A5 5 0 1 0 12 17 5 5 0 1 0 12 7z"></path>
       <path d="M12 1 12 3"></path>
       <path d="M12 21 12 23"></path>

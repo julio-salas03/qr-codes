@@ -10,6 +10,7 @@ export function AlertCircle() {
       width="1.25rem"
       class="inline-block"
     >
+      <title>exclamation mark icon</title>
       <path
         fill="none"
         stroke="currentColor"
