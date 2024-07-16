@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@felte/solid": "^1.2.13",
     "@kobalte/core": "^0.13.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",

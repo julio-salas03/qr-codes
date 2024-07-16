@@ -1,7 +1,7 @@
-import { createEffect, createSignal, Show } from "solid-js";
+import { createSignal, Show } from "solid-js";
 import { TextField, TextFieldTextArea } from "~/components/ui/text-field";
 import { Label } from "~/components/ui/label";
-import { ERROR_CORRECTION_LEVELS, IMAGE_FORMATS } from "./lib/const";
+import { ERROR_CORRECTION_LEVEL, IMAGE_FORMATS } from "./lib/const";
 import QRCode from "qrcode";
 import { buttonVariants } from "~/components/ui/button";
 import { GitHub } from "./components/icons/github";
@@ -17,7 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import { download, objectKeys } from "./lib/utils";
+import { download } from "./lib/utils";
 import { Separator } from "~/components/ui/separator";
 import { ArrowDown } from "./components/icons/arrow-down";
 import { Col, Grid } from "~/components/ui/grid";
@@ -26,38 +26,41 @@ import ThemeProvider from "./components/ThemeProvider";
 import ThemePicker from "./components/ThemePicker";
 import InputTooltip from "./components/InputTooltip";
 import { Button } from "~/components/ui/button";
+import { Description as NumberFieldDescription } from "@kobalte/core/number-field";
+import { createForm } from "@felte/solid";
+import { HiddenSelect } from "@kobalte/core/select";
 
-const imageFormatKeys = objectKeys(IMAGE_FORMATS);
+const DEFAULT_FORM_VALUES = {
+  data: "",
+  scale: 4,
+  margin: 4,
+  errorCorrectionLevel: ERROR_CORRECTION_LEVEL.MEDIUM,
+  imageFormat: IMAGE_FORMATS.PNG,
+};
 
 function App() {
-  const [data, setData] = createSignal("");
-  const [errorCorrectionLevel, setErrorCorrectionLevel] = createSignal<
-    (typeof ERROR_CORRECTION_LEVELS)[number]
-  >(ERROR_CORRECTION_LEVELS[1]);
   const [image, setImage] = createSignal("");
-  const [imageFormat, setImageFormat] =
-    createSignal<(typeof imageFormatKeys)[number]>("png");
   const [advancedOptionsOpen, setAdvancedOptionsOpen] = createSignal(false);
-  const [margin, setMargin] = createSignal(4);
-  const [scale, setScale] = createSignal(4);
 
-  createEffect(() => {
-    if (!data()) return setImage("");
-
-    QRCode.toDataURL(
-      data(),
-      {
-        errorCorrectionLevel: errorCorrectionLevel(),
-        margin: margin(),
-        scale: scale(),
-        type: IMAGE_FORMATS[imageFormat()],
-      },
-      (err, url) => {
-        if (err) throw err;
-        setImage(url);
-      }
-    );
+  const { form } = createForm({
+    initialValues: DEFAULT_FORM_VALUES,
+    onSubmit: ({ data, margin, scale, errorCorrectionLevel, imageFormat }) => {
+      QRCode.toDataURL(
+        data,
+        {
+          errorCorrectionLevel,
+          margin,
+          scale,
+          type: imageFormat,
+        },
+        (err, url) => {
+          if (err) throw err;
+          setImage(url);
+        }
+      );
+    },
   });
+
 
   return (
     <ThemeProvider>
@@ -77,7 +80,7 @@ function App() {
           </a>
           <ThemePicker />
         </nav>
-        <form class="container mx-auto">
+        <form ref={form} class="container mx-auto">
           <Collapsible
             onOpenChange={(open) => setAdvancedOptionsOpen(open)}
             open={advancedOptionsOpen()}
@@ -95,110 +98,125 @@ function App() {
             <CollapsibleContent>
               <Grid cols={2} class="w-full gap-2">
                 <Col>
-                  <Label class="space-x-1 flex items-center mb-3">
-                    <span>Image Format</span>
-                    <InputTooltip>
-                      Format used to export the QR Code when using the
-                      "download" button
-                    </InputTooltip>
+                  <Label>
+                    <span class="space-x-1 flex items-center mb-3">
+                      <span>Image Format</span>
+                      <InputTooltip>
+                        Format used to export the QR Code when using the
+                        "download" button
+                      </InputTooltip>
+                    </span>
+                    <Select
+                      name="imageFormat"
+                      options={Object.values(IMAGE_FORMATS)}
+                      defaultValue={DEFAULT_FORM_VALUES.imageFormat}
+                      itemComponent={(props) => (
+                        <SelectItem class="cursor-pointer" item={props.item}>
+                          {props.item.rawValue
+                            .replace("image/", "")
+                            .toUpperCase()}
+                        </SelectItem>
+                      )}
+                      disallowEmptySelection
+                    >
+                      <HiddenSelect />
+                      <SelectTrigger aria-label="Image format">
+                        <SelectValue<string>>
+                          {(state) =>
+                            state
+                              .selectedOption()
+                              .replace("image/", "")
+                              .toUpperCase()
+                          }
+                        </SelectValue>
+                      </SelectTrigger>
+                      <SelectContent />
+                    </Select>
                   </Label>
-                  <Select
-                    onChange={(value) => setImageFormat(value)}
-                    defaultValue={imageFormat()}
-                    options={imageFormatKeys}
-                    placeholder="Select an image format..."
-                    itemComponent={(props) => (
-                      <SelectItem class="cursor-pointer" item={props.item}>
-                        {props.item.rawValue.toUpperCase()}
-                      </SelectItem>
-                    )}
-                  >
-                    <SelectTrigger aria-label="Image format">
-                      <SelectValue<string>>
-                        {(state) => state.selectedOption().toUpperCase()}
-                      </SelectValue>
-                    </SelectTrigger>
-                    <SelectContent />
-                  </Select>
                 </Col>
                 <Col>
-                  <Label
-                    class="space-x-1 flex items-center mb-3"
-                    for="errorCorrectionLevel"
-                  >
-                    <span>Error Correction Level</span>
-                    <InputTooltip>
-                      Allows to successfully scan a QR Code even if the symbol
-                      is dirty or damaged. Higher levels offer a better error
-                      resistance but reduces the symbol's capacity
-                    </InputTooltip>
+                  <Label for="errorCorrectionLevel">
+                    <span class="space-x-1 flex items-center mb-3">
+                      <span>Error Correction Level</span>
+                      <InputTooltip>
+                        Allows to successfully scan a QR Code even if the symbol
+                        is dirty or damaged. Higher levels offer a better error
+                        resistance but reduces the symbol's capacity
+                      </InputTooltip>
+                    </span>
+                    <Select
+                      name="errorCorrectionLevel"
+                      defaultValue={DEFAULT_FORM_VALUES.errorCorrectionLevel}
+                      options={Object.values(ERROR_CORRECTION_LEVEL)}
+                      itemComponent={(props) => (
+                        <SelectItem class="cursor-pointer" item={props.item}>
+                          {props.item.rawValue.toUpperCase()}
+                        </SelectItem>
+                      )}
+                      disallowEmptySelection
+                    >
+                      <HiddenSelect />
+                      <SelectTrigger aria-label="Image format">
+                        <SelectValue<string>>
+                          {(state) => state.selectedOption().toUpperCase()}
+                        </SelectValue>
+                      </SelectTrigger>
+                      <SelectContent />
+                    </Select>
                   </Label>
-                  <Select
-                    onChange={(value) => setErrorCorrectionLevel(value)}
-                    value={errorCorrectionLevel()}
-                    options={ERROR_CORRECTION_LEVELS.slice()}
-                    placeholder="Select an image format..."
-                    itemComponent={(props) => (
-                      <SelectItem class="cursor-pointer" item={props.item}>
-                        {props.item.rawValue.toUpperCase()}
-                      </SelectItem>
-                    )}
-                  >
-                    <SelectTrigger aria-label="Image format">
-                      <SelectValue<string>>
-                        {(state) => state.selectedOption().toUpperCase()}
-                      </SelectValue>
-                    </SelectTrigger>
-                    <SelectContent />
-                  </Select>
                 </Col>
                 <Col>
-                  <Label class="space-x-1 flex items-center mb-3">
-                    <span>Margin</span>
-                    <InputTooltip>
-                      Define how much wide the quiet zone should be.
-                    </InputTooltip>
-                  </Label>
                   <NumberField
-                    onChange={(value) => setMargin(Number(value))}
-                    defaultValue={4}
+                    defaultValue={DEFAULT_FORM_VALUES.margin}
                     minValue={1}
                   >
-                    <div class="relative">
-                      <NumberFieldInput />
-                    </div>
+                    <Label>
+                      <span class="space-x-1 flex items-center mb-3">
+                        <span>Margin</span>
+                        <InputTooltip>
+                          <NumberFieldDescription>
+                            Define how much wide the quiet zone should be.
+                          </NumberFieldDescription>
+                        </InputTooltip>
+                      </span>
+                      <span class="relative block">
+                        <NumberFieldInput name="margin" />
+                      </span>
+                    </Label>
                   </NumberField>
                 </Col>
                 <Col>
-                  <Label class="space-x-1 flex items-center mb-3">
-                    <span>Scale</span>
-                    <InputTooltip>
-                      A value of 1 means 1px per modules (black dots).
-                    </InputTooltip>
-                  </Label>
                   <NumberField
-                    onChange={(value) => setScale(Number(value))}
-                    defaultValue={4}
+                    defaultValue={DEFAULT_FORM_VALUES.scale}
                     minValue={1}
                   >
-                    <div class="relative">
-                      <NumberFieldInput />
-                    </div>
+                    <Label>
+                      <span class="space-x-1 flex items-center mb-3">
+                        <span>Scale</span>
+                        <InputTooltip>
+                          <NumberFieldDescription>
+                            A value of 1 means 1px per modules (black dots).
+                          </NumberFieldDescription>
+                        </InputTooltip>
+                      </span>
+                      <span class="relative block">
+                        <NumberFieldInput name="scale" />
+                      </span>
+                    </Label>
                   </NumberField>
                 </Col>
               </Grid>
-
               <Separator class="mb-2 mt-3" />
             </CollapsibleContent>
           </Collapsible>
           <div class="space-y-4">
-            <TextField value={data()} onChange={(value) => setData(value)}>
-              <Label class="space-y-3" for="data">
+            <TextField>
+              <Label class="space-y-3">
                 <span>QR Code Data</span>
                 <TextFieldTextArea
                   placeholder="E.g. https://google.com"
                   name="data"
-                  id="data"
+                  required
                 />
               </Label>
             </TextField>
