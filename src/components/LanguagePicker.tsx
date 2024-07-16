@@ -1,0 +1,45 @@
+import USFlag from "./icons/us-flag";
+import SpainFlag from "./icons/spain-flag";
+import { Button } from "./ui/button";
+import {
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenu,
+} from "./ui/dropdown-menu";
+import i18next from "i18next";
+import Language from "./icons/language";
+
+export default function LanguagePicker() {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        as={Button<"button">}
+        variant="ghost"
+        size="sm"
+        class="w-9 px-0"
+      >
+        <Language />
+        <span class="sr-only">change language</span>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuItem
+          as={"button"}
+          class="flex gap-2 items-center w-full cursor-pointer"
+          onSelect={() => i18next.changeLanguage("en")}
+        >
+          <USFlag />
+          <span>English</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          as={"button"}
+          class="flex gap-2 items-center w-full cursor-pointer"
+          onSelect={() => i18next.changeLanguage("es")}
+        >
+          <SpainFlag />
+          <span>Español</span>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}

@@ -13,6 +13,7 @@
     "@kobalte/core": "^0.13.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "i18next": "^23.12.1",
     "qrcode": "^1.5.3",
     "solid-js": "^1.8.15",
     "tailwind-merge": "^2.3.0",
