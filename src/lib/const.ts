@@ -1,7 +1,12 @@
-export const ERROR_CORRECTION_LEVELS = ["L", "M", "Q", "H"] as const;
+export enum IMAGE_FORMATS {
+  PNG = "image/png",
+  WEBP = "image/webp",
+  JPEG = "image/jpeg",
+}
 
-export const IMAGE_FORMATS = Object.freeze({
-  png: "image/png",
-  webp: "image/webp",
-  jpeg: "image/jpeg",
-});
+export enum ERROR_CORRECTION_LEVEL {
+  LOW = "L",
+  MEDIUM = "M",
+  QUARTILE = "Q",
+  HIGH = "H",
+}
