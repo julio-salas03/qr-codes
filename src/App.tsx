@@ -57,16 +57,16 @@ function App() {
         (err, url) => {
           if (err) throw err;
           setImage(url);
-        }
+        },
       );
     },
   });
 
   return (
     <ThemeProvider>
-      <div class="text-foreground bg-background min-h-screen pb-10">
+      <div class="min-h-screen bg-background pb-10 text-foreground">
         <nav class="border-b">
-          <div class="container flex items-center justify-end gap-2 h-14 relative">
+          <div class="container relative flex h-14 items-center justify-end gap-2">
             <SkipLink />
             <a
               class={buttonVariants({
@@ -85,14 +85,14 @@ function App() {
           </div>
         </nav>
         <main id="main">
-          <Grid colsLg={12} class="container mt-4 md:mt-10 lg:mt-36 gap-10">
+          <Grid colsLg={12} class="container mt-4 gap-10 md:mt-10 lg:mt-36">
             <Col span={6}>
-              <form ref={form} class="p-4 border rounded-md">
+              <form ref={form} class="rounded-md border p-4">
                 <Collapsible
                   onOpenChange={(open) => setAdvancedOptionsOpen(open)}
                   open={advancedOptionsOpen()}
                 >
-                  <CollapsibleTrigger class="flex py-2 space-x-1 items-center justify-center">
+                  <CollapsibleTrigger class="flex items-center justify-center space-x-1 py-2">
                     <span>{t("advanced_settings")}</span>
                     <ArrowDown
                       classList={{
@@ -105,13 +105,13 @@ function App() {
                   <CollapsibleContent>
                     <Grid cols={2} class="w-full gap-2">
                       <Col>
-                        <div class="space-x-1 flex items-center mb-3">
+                        <div class="mb-3 flex items-center space-x-1">
                           <Label for="imageFormat">
                             {t("image_format_label")}
                           </Label>
                           <InputTooltip
                             triggerText={t(
-                              "image_format_field_info_trigger_text"
+                              "image_format_field_info_trigger_text",
                             )}
                             title={t("image_format_field_info_title")}
                           >
@@ -149,13 +149,13 @@ function App() {
                         </Select>
                       </Col>
                       <Col>
-                        <div class="space-x-1 flex items-center mb-3">
+                        <div class="mb-3 flex items-center space-x-1">
                           <Label for="errorCorrectionLevel">
                             <span>{t("error_correction_level_label")}</span>
                           </Label>
                           <InputTooltip
                             triggerText={t(
-                              "error_correction_level_field_info_trigger_text"
+                              "error_correction_level_field_info_trigger_text",
                             )}
                             title={t("error_correction_level_field_info_title")}
                           >
@@ -194,7 +194,7 @@ function App() {
                           defaultValue={DEFAULT_FORM_VALUES.margin}
                           minValue={1}
                         >
-                          <div class="space-x-1 flex items-center mb-3">
+                          <div class="mb-3 flex items-center space-x-1">
                             <Label for="margin">{t("margin_label")}</Label>
                             <InputTooltip
                               triggerText={t("margin_field_info_trigger_text")}
@@ -211,7 +211,7 @@ function App() {
                           defaultValue={DEFAULT_FORM_VALUES.scale}
                           minValue={1}
                         >
-                          <div class="space-x-1 flex items-center mb-3">
+                          <div class="mb-3 flex items-center space-x-1">
                             <Label for="scale">{t("scale_label")}</Label>
                             <InputTooltip
                               triggerText={t("scale_field_info_trigger_text")}

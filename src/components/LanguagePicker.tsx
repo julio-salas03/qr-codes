@@ -26,7 +26,7 @@ export default function LanguagePicker() {
       <DropdownMenuContent>
         <DropdownMenuItem
           as={"button"}
-          class="flex gap-2 items-center w-full cursor-pointer"
+          class="flex w-full cursor-pointer items-center gap-2"
           onSelect={() => i18next?.changeLanguage("en")}
         >
           <USFlag />
@@ -34,7 +34,7 @@ export default function LanguagePicker() {
         </DropdownMenuItem>
         <DropdownMenuItem
           as={"button"}
-          class="flex gap-2 items-center w-full cursor-pointer"
+          class="flex w-full cursor-pointer items-center gap-2"
           onSelect={() => i18next?.changeLanguage("es")}
         >
           <SpainFlag />

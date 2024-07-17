@@ -13,7 +13,7 @@ const TranslationsContext = createContext<TranslationsContextProps>();
 
 const createTranslationsContext = (instance: i18n, options: InitOptions) => {
   const [translate, setTranslate] = createSignal<TFunction | (() => null)>(
-    !!options.resources ? instance.t : () => null
+    !!options.resources ? instance.t : () => null,
   );
 
   instance.on("loaded", () => setTranslate(() => instance.t));

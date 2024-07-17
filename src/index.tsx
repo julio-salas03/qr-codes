@@ -11,5 +11,5 @@ render(
       <App />
     </TranslationsProvider>
   ),
-  root!
+  root!,
 );

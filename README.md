@@ -29,9 +29,9 @@ git clone git@github.com:julio-salas03/qr-codes.git
 ```bash
 bun install
 ```
+
 3. Run the development server
 
 ```bash
 bun run dev
 ```
-

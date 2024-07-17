@@ -25,7 +25,7 @@ export default function ThemePicker() {
       <DropdownMenuContent>
         <DropdownMenuItem
           as={"button"}
-          class="flex gap-2 items-center w-full cursor-pointer"
+          class="flex w-full cursor-pointer items-center gap-2"
           onSelect={() => setColorScheme("light")}
         >
           <Sun />
@@ -33,7 +33,7 @@ export default function ThemePicker() {
         </DropdownMenuItem>
         <DropdownMenuItem
           as={"button"}
-          class="flex gap-2 items-center w-full cursor-pointer"
+          class="flex w-full cursor-pointer items-center gap-2"
           onSelect={() => setColorScheme("dark")}
         >
           <Moon />
@@ -41,7 +41,7 @@ export default function ThemePicker() {
         </DropdownMenuItem>
         <DropdownMenuItem
           as={"button"}
-          class="flex gap-2 items-center w-full cursor-pointer"
+          class="flex w-full cursor-pointer items-center gap-2"
           onSelect={() => setColorScheme("system")}
         >
           <Computer />
