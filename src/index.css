@@ -202,3 +202,16 @@
     --radius: 0.5rem;
   }
 }
+
+@font-face {
+  font-family: Roboto;
+  src: url("/fonts/RobotoMono-Medium.ttf") format("truetype");
+  font-weight: 400;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  @apply font-roboto;
+}
