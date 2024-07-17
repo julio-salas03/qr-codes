@@ -63,7 +63,7 @@ function App() {
 
   return (
     <ThemeProvider>
-      <div class="text-foreground bg-background min-h-screen">
+      <div class="text-foreground bg-background min-h-screen pb-10">
         <nav class="h-14 flex items-center justify-end px-6 border-b gap-2">
           <a
             class={buttonVariants({

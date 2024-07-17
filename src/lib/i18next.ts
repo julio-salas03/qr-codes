@@ -30,29 +30,30 @@ type Languages = "en" | "es";
 export const resources: Record<Languages, { translation: Translation }> = {
   en: {
     translation: {
-      github_link_label: "check the project on github",
+      github_link_label: "Check the project on github",
       advanced_settings: "Advanced settings",
       image_format_label: "Image Format",
       image_format_tooltip:
         "Format used to export the QR Code when using the 'download' button.",
       image_format_field_info_trigger_text:
-        "display image format field information.",
-      image_format_field_info_title: "Image Format field description",
+        "Display 'Image Format' field information.",
+      image_format_field_info_title: "'Image Format' field description",
       error_correction_level_label: "Error Correction Level",
       error_correction_level_tooltip:
-        "Allows to successfully scan a QR Code even if the symbol is dirty or damaged. Higher levels offer a better error resistance but reduces the symbol's capacity.",
+        "Allows to successfully scan a QR Code even if it's dirty or damaged. Higher levels offer a better error resistance but reduces its capacity.",
       error_correction_level_field_info_trigger_text:
-        "display error correction level field information.",
+        "Display 'Error Correction Level' field information.",
       error_correction_level_field_info_title:
-        "Error Correction Level field description",
+        "'Error Correction Level' field description",
       margin_label: "Margin",
-      margin_tooltip: "Define how much wide the quiet zone should be.",
-      margin_field_info_trigger_text: "display margin field information.",
-      margin_field_info_title: "Margin field description",
+      margin_tooltip:
+        "Define how much wide the borders of the QR code should be.",
+      margin_field_info_trigger_text: "Display 'Margin' field information.",
+      margin_field_info_title: "'Margin' field description",
       scale_label: "Scale",
-      scale_tooltip: "A value of 1 means 1px per modules (black dots).",
-      scale_field_info_trigger_text: "display scale field information.",
-      scale_field_info_title: "Scale field description",
+      scale_tooltip: "A value of 1 means 1 pixels per modules (black dots).",
+      scale_field_info_trigger_text: "Display 'Scale' field information.",
+      scale_field_info_title: "'Scale' field description",
       qr_code_data_label: "QR Code Data",
       qr_code_data_placeholder: "E.g. https://google.com",
       generate_button: "Generate QR Code",
@@ -62,31 +63,32 @@ export const resources: Record<Languages, { translation: Translation }> = {
   },
   es: {
     translation: {
-      github_link_label: "ver el proyecto en github",
+      github_link_label: "Ver el proyecto en github",
       advanced_settings: "Configuración avanzada",
-      image_format_label: "Formato de imagen",
+      image_format_label: "Formato de la imagen",
       image_format_tooltip:
-        "Formato utilizado para exportar el código QR cuando se usa el botón 'descargar'.",
+        "Formato utilizado para exportar el código QR al usar el botón 'descargar'.",
       image_format_field_info_trigger_text:
-        "mostrar información del campo de formato de imagen.",
+        "Mostrar información del campo 'Formato de la imagen'.",
       image_format_field_info_title:
-        "Descripción del campo de formato de imagen",
+        "Descripción del campo 'Formato de la imagen'",
       error_correction_level_label: "Nivel de corrección de error",
       error_correction_level_tooltip:
-        "Permite escanear correctamente un código QR incluso si el símbolo está sucio o dañado. Niveles más altos ofrecen mejor resistencia a errores pero reducen la capacidad del símbolo.",
+        "Permite escanear correctamente un código QR incluso si este está sucio o dañado. Niveles más altos ofrecen mejor resistencia, pero reducen la capacidad del código.",
       error_correction_level_field_info_trigger_text:
-        "mostrar información del campo de nivel de corrección de error.",
+        "Mostrar información del campo 'Nivel de corrección de error'.",
       error_correction_level_field_info_title:
-        "Descripción del campo de nivel de corrección de error",
+        "Descripción del campo 'Nivel de corrección de error'",
       margin_label: "Margen",
-      margin_tooltip: "Define cuán ancha debe ser la zona tranquila.",
-      margin_field_info_trigger_text:
-        "mostrar información del campo de margen.",
-      margin_field_info_title: "Descripción del campo de margen",
-      scale_label: "Escala",
-      scale_tooltip: "Un valor de 1 significa 1px por módulos (puntos negros).",
-      scale_field_info_trigger_text: "mostrar información del campo de escala.",
-      scale_field_info_title: "Descripción del campo de escala",
+      margin_tooltip: "Define cuán ancho deben ser los bordes del codigo QR.",
+      margin_field_info_trigger_text: "Mostrar información del campo 'Margen'.",
+      margin_field_info_title: "Descripción del campo margen",
+      scale_label: "Escalado",
+      scale_tooltip:
+        "Un valor de 1 significa 1 pixel por módulo (puntos negros).",
+      scale_field_info_trigger_text:
+        "mostrar información del campo 'Escalado'.",
+      scale_field_info_title: "Descripción del campo 'Escalado'",
       qr_code_data_label: "Datos del código QR",
       qr_code_data_placeholder: "Ej. https://google.com",
       generate_button: "Generar código QR",
