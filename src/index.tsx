@@ -1,9 +1,15 @@
 /* @refresh reload */
-import { render } from 'solid-js/web'
+import { render } from "solid-js/web";
+import "./index.css";
+import App from "./App";
+import { TranslationsProvider } from "./components/context/Translations";
 
-import './index.css'
-import App from './App'
-
-const root = document.getElementById('root')
-
-render(() => <App />, root!)
+const root = document.getElementById("root");
+render(
+  () => (
+    <TranslationsProvider>
+      <App />
+    </TranslationsProvider>
+  ),
+  root!
+);

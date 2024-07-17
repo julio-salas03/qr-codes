@@ -17,7 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import { download } from "./lib/utils";
+import { download, t } from "./lib/utils";
 import { Separator } from "~/components/ui/separator";
 import { ArrowDown } from "./components/icons/arrow-down";
 import { Col, Grid } from "~/components/ui/grid";
@@ -28,6 +28,7 @@ import { Button } from "~/components/ui/button";
 import { createForm } from "@felte/solid";
 import { HiddenSelect } from "@kobalte/core/select";
 import InputTooltip from "./components/InputTooltip";
+import LanguagePicker from "./components/LanguagePicker";
 
 const DEFAULT_FORM_VALUES = {
   data: "",
@@ -74,8 +75,9 @@ function App() {
             href="https://github.com/julio-salas03/qr-codes"
           >
             <GitHub />
-            <span class="sr-only">check the project on github</span>
+            <span class="sr-only">{t("download_button")}</span>
           </a>
+          <LanguagePicker />
           <ThemePicker />
         </nav>
         <form ref={form} class="container mx-auto">
@@ -84,7 +86,7 @@ function App() {
             open={advancedOptionsOpen()}
           >
             <CollapsibleTrigger class="flex py-2 space-x-1 mt-4 items-center justify-center">
-              <span>Advanced settings</span>
+              <span>{t("advanced_settings")}</span>
               <ArrowDown
                 classList={{
                   "rotate-180 relative pb-1": advancedOptionsOpen(),
@@ -97,13 +99,12 @@ function App() {
               <Grid cols={2} class="w-full gap-2">
                 <Col>
                   <div class="space-x-1 flex items-center mb-3">
-                    <Label for="imageFormat">Image Format</Label>
+                    <Label for="imageFormat">{t("image_format_label")}</Label>
                     <InputTooltip
-                      triggerText="display image format field information."
-                      title="Image Format field description"
+                      triggerText={t("image_format_field_info_trigger_text")}
+                      title={t("image_format_field_info_title")}
                     >
-                      Format used to export the QR Code when using the
-                      "download" button.
+                      {t("image_format_tooltip")}
                     </InputTooltip>
                   </div>
                   <Select
@@ -120,7 +121,7 @@ function App() {
                     disallowEmptySelection
                   >
                     <HiddenSelect />
-                    <SelectTrigger aria-label="Image format">
+                    <SelectTrigger aria-label={t("image_format_label")}>
                       <SelectValue<string>>
                         {(state) =>
                           state
@@ -136,15 +137,15 @@ function App() {
                 <Col>
                   <div class="space-x-1 flex items-center mb-3">
                     <Label for="errorCorrectionLevel">
-                      <span>Error Correction Level</span>
+                      <span>{t("error_correction_level_label")}</span>
                     </Label>
                     <InputTooltip
-                      triggerText="display error correction level field information."
-                      title="Error Correction Level field description"
+                      triggerText={t(
+                        "error_correction_level_field_info_trigger_text"
+                      )}
+                      title={t("error_correction_level_field_info_title")}
                     >
-                      Allows to successfully scan a QR Code even if the symbol
-                      is dirty or damaged. Higher levels offer a better error
-                      resistance but reduces the symbol's capacity.
+                      {t("error_correction_level_tooltip")}
                     </InputTooltip>
                   </div>
                   <Select
@@ -159,7 +160,9 @@ function App() {
                     disallowEmptySelection
                   >
                     <HiddenSelect />
-                    <SelectTrigger aria-label="Image format">
+                    <SelectTrigger
+                      aria-label={t("error_correction_level_label")}
+                    >
                       <SelectValue<string>>
                         {(state) => state.selectedOption().toUpperCase()}
                       </SelectValue>
@@ -173,14 +176,12 @@ function App() {
                     minValue={1}
                   >
                     <div class="space-x-1 flex items-center mb-3">
-                      <Label for="margin">
-                        <span>Margin</span>
-                      </Label>
+                      <Label for="margin">{t("margin_label")}</Label>
                       <InputTooltip
-                        triggerText="display margin field information."
-                        title="Margin field description"
+                        triggerText={t("margin_field_info_trigger_text")}
+                        title={t("margin_field_info_title")}
                       >
-                        Define how much wide the quiet zone should be.
+                        {t("margin_tooltip")}
                       </InputTooltip>
                     </div>
                     <NumberFieldInput name="margin" />
@@ -192,12 +193,12 @@ function App() {
                     minValue={1}
                   >
                     <div class="space-x-1 flex items-center mb-3">
-                      <Label for="scale">Scale</Label>
+                      <Label for="scale">{t("scale_label")}</Label>
                       <InputTooltip
-                        triggerText="display scale field information."
-                        title="Scale field description"
+                        triggerText={t("scale_field_info_trigger_text")}
+                        title={t("scale_field_info_title")}
                       >
-                        A value of 1 means 1px per modules (black dots).
+                        {t("scale_tooltip")}
                       </InputTooltip>
                     </div>
                     <NumberFieldInput name="scale" />
@@ -210,9 +211,9 @@ function App() {
           <div class="space-y-4">
             <TextField>
               <Label class="space-y-3">
-                <span>QR Code Data</span>
+                <span>{t("qr_code_data_label")}</span>
                 <TextFieldTextArea
-                  placeholder="E.g. https://google.com"
+                  placeholder={t("qr_code_data_placeholder")}
                   name="data"
                   required
                 />
@@ -220,14 +221,14 @@ function App() {
             </TextField>
           </div>
           <div class="mt-3 flex gap-2">
-            <Button type="submit">Generate QR Code</Button>
+            <Button type="submit">{t("generate_button")}</Button>
             <Button
               type="button"
               variant="secondary"
               disabled={!image()}
               onClick={() => download(image())}
             >
-              Download
+              {t("download_button")}
             </Button>
           </div>
           <Show when={image()}>
@@ -235,7 +236,7 @@ function App() {
               <img
                 class="mx-auto border-4 border-foreground"
                 src={image()}
-                alt="QR Code"
+                alt={t("qr_code_alt_text")}
               />
             </div>
           </Show>
