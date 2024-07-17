@@ -1,4 +1,4 @@
-type TranslationKeys =
+export type TranslationKeys =
   | "github_link_label"
   | "advanced_settings"
   | "image_format_label"
@@ -25,7 +25,9 @@ type TranslationKeys =
 
 type Translation = Record<TranslationKeys, string>;
 
-export const resources: Record<string, { translation: Translation }> = {
+type Languages = "en" | "es";
+
+export const resources: Record<Languages, { translation: Translation }> = {
   en: {
     translation: {
       github_link_label: "check the project on github",

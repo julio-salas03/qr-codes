@@ -7,10 +7,11 @@ import {
   DropdownMenuItem,
   DropdownMenu,
 } from "./ui/dropdown-menu";
-import i18next from "i18next";
 import Language from "./icons/language";
+import { useTranslationsContext } from "./context/Translations";
 
 export default function LanguagePicker() {
+  const i18next = useTranslationsContext();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
@@ -26,7 +27,7 @@ export default function LanguagePicker() {
         <DropdownMenuItem
           as={"button"}
           class="flex gap-2 items-center w-full cursor-pointer"
-          onSelect={() => i18next.changeLanguage("en")}
+          onSelect={() => i18next?.changeLanguage("en")}
         >
           <USFlag />
           <span>English</span>
@@ -34,7 +35,7 @@ export default function LanguagePicker() {
         <DropdownMenuItem
           as={"button"}
           class="flex gap-2 items-center w-full cursor-pointer"
-          onSelect={() => i18next.changeLanguage("es")}
+          onSelect={() => i18next?.changeLanguage("es")}
         >
           <SpainFlag />
           <span>Español</span>

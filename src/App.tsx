@@ -17,7 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import { download } from "./lib/utils";
+import { download, t } from "./lib/utils";
 import { Separator } from "~/components/ui/separator";
 import { ArrowDown } from "./components/icons/arrow-down";
 import { Col, Grid } from "~/components/ui/grid";
@@ -28,7 +28,6 @@ import { Button } from "~/components/ui/button";
 import { createForm } from "@felte/solid";
 import { HiddenSelect } from "@kobalte/core/select";
 import InputTooltip from "./components/InputTooltip";
-import i18next from "i18next";
 import LanguagePicker from "./components/LanguagePicker";
 
 const DEFAULT_FORM_VALUES = {
@@ -76,7 +75,7 @@ function App() {
             href="https://github.com/julio-salas03/qr-codes"
           >
             <GitHub />
-            <span class="sr-only">{i18next.t("github_link_aria_label")}</span>
+            <span class="sr-only">{t("download_button")}</span>
           </a>
           <LanguagePicker />
           <ThemePicker />
@@ -87,7 +86,7 @@ function App() {
             open={advancedOptionsOpen()}
           >
             <CollapsibleTrigger class="flex py-2 space-x-1 mt-4 items-center justify-center">
-              <span>{i18next.t("advanced_settings")}</span>
+              <span>{t("advanced_settings")}</span>
               <ArrowDown
                 classList={{
                   "rotate-180 relative pb-1": advancedOptionsOpen(),
@@ -100,16 +99,12 @@ function App() {
               <Grid cols={2} class="w-full gap-2">
                 <Col>
                   <div class="space-x-1 flex items-center mb-3">
-                    <Label for="imageFormat">
-                      {i18next.t("image_format_label")}
-                    </Label>
+                    <Label for="imageFormat">{t("image_format_label")}</Label>
                     <InputTooltip
-                      triggerText={i18next.t(
-                        "image_format_field_info_trigger_text"
-                      )}
-                      title={i18next.t("image_format_field_info_title")}
+                      triggerText={t("image_format_field_info_trigger_text")}
+                      title={t("image_format_field_info_title")}
                     >
-                      {i18next.t("image_format_tooltip")}
+                      {t("image_format_tooltip")}
                     </InputTooltip>
                   </div>
                   <Select
@@ -126,7 +121,7 @@ function App() {
                     disallowEmptySelection
                   >
                     <HiddenSelect />
-                    <SelectTrigger aria-label={i18next.t("image_format_label")}>
+                    <SelectTrigger aria-label={t("image_format_label")}>
                       <SelectValue<string>>
                         {(state) =>
                           state
@@ -142,17 +137,15 @@ function App() {
                 <Col>
                   <div class="space-x-1 flex items-center mb-3">
                     <Label for="errorCorrectionLevel">
-                      <span>{i18next.t("error_correction_level_label")}</span>
+                      <span>{t("error_correction_level_label")}</span>
                     </Label>
                     <InputTooltip
-                      triggerText={i18next.t(
+                      triggerText={t(
                         "error_correction_level_field_info_trigger_text"
                       )}
-                      title={i18next.t(
-                        "error_correction_level_field_info_title"
-                      )}
+                      title={t("error_correction_level_field_info_title")}
                     >
-                      {i18next.t("error_correction_level_tooltip")}
+                      {t("error_correction_level_tooltip")}
                     </InputTooltip>
                   </div>
                   <Select
@@ -168,7 +161,7 @@ function App() {
                   >
                     <HiddenSelect />
                     <SelectTrigger
-                      aria-label={i18next.t("error_correction_level_label")}
+                      aria-label={t("error_correction_level_label")}
                     >
                       <SelectValue<string>>
                         {(state) => state.selectedOption().toUpperCase()}
@@ -183,14 +176,12 @@ function App() {
                     minValue={1}
                   >
                     <div class="space-x-1 flex items-center mb-3">
-                      <Label for="margin">{i18next.t("margin_label")}</Label>
+                      <Label for="margin">{t("margin_label")}</Label>
                       <InputTooltip
-                        triggerText={i18next.t(
-                          "margin_field_info_trigger_text"
-                        )}
-                        title={i18next.t("margin_field_info_title")}
+                        triggerText={t("margin_field_info_trigger_text")}
+                        title={t("margin_field_info_title")}
                       >
-                        {i18next.t("margin_tooltip")}
+                        {t("margin_tooltip")}
                       </InputTooltip>
                     </div>
                     <NumberFieldInput name="margin" />
@@ -202,12 +193,12 @@ function App() {
                     minValue={1}
                   >
                     <div class="space-x-1 flex items-center mb-3">
-                      <Label for="scale">{i18next.t("scale_label")}</Label>
+                      <Label for="scale">{t("scale_label")}</Label>
                       <InputTooltip
-                        triggerText={i18next.t("scale_field_info_trigger_text")}
-                        title={i18next.t("scale_field_info_title")}
+                        triggerText={t("scale_field_info_trigger_text")}
+                        title={t("scale_field_info_title")}
                       >
-                        {i18next.t("scale_tooltip")}
+                        {t("scale_tooltip")}
                       </InputTooltip>
                     </div>
                     <NumberFieldInput name="scale" />
@@ -220,9 +211,9 @@ function App() {
           <div class="space-y-4">
             <TextField>
               <Label class="space-y-3">
-                <span>{i18next.t("qr_code_data_label")}</span>
+                <span>{t("qr_code_data_label")}</span>
                 <TextFieldTextArea
-                  placeholder={i18next.t("qr_code_data_placeholder")}
+                  placeholder={t("qr_code_data_placeholder")}
                   name="data"
                   required
                 />
@@ -230,14 +221,14 @@ function App() {
             </TextField>
           </div>
           <div class="mt-3 flex gap-2">
-            <Button type="submit">{i18next.t("generate_button")}</Button>
+            <Button type="submit">{t("generate_button")}</Button>
             <Button
               type="button"
               variant="secondary"
               disabled={!image()}
               onClick={() => download(image())}
             >
-              {i18next.t("download_button")}
+              {t("download_button")}
             </Button>
           </div>
           <Show when={image()}>
@@ -245,7 +236,7 @@ function App() {
               <img
                 class="mx-auto border-4 border-foreground"
                 src={image()}
-                alt={i18next.t("qr_code_alt_text")}
+                alt={t("qr_code_alt_text")}
               />
             </div>
           </Show>
