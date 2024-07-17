@@ -207,6 +207,7 @@
   font-family: Roboto;
   src: url("/fonts/RobotoMono-Medium.ttf") format("truetype");
   font-weight: 400;
+  font-display: fallback;
 }
 
 * {
