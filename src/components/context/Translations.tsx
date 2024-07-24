@@ -11,6 +11,8 @@ type TranslationsContextProps = {
 
 const TranslationsContext = createContext<TranslationsContextProps>();
 
+const LOCAL_STORAGE_LANGUAGE_KEY = "language";
+
 const createTranslationsContext = (instance: i18n, options: InitOptions) => {
   const [translate, setTranslate] = createSignal<TFunction | (() => null)>(
     !!options.resources ? instance.t : () => null,
@@ -21,6 +23,7 @@ const createTranslationsContext = (instance: i18n, options: InitOptions) => {
 
   const changeLanguage = async (lng: string) => {
     const t = await instance.changeLanguage(lng);
+    localStorage.setItem(LOCAL_STORAGE_LANGUAGE_KEY, lng);
     setTranslate(() => t);
   };
 
@@ -38,7 +41,7 @@ type TranslationsProviderProps = {
 export const TranslationsProvider = (props: TranslationsProviderProps) => {
   const context = createTranslationsContext(props.instance || i18next, {
     resources,
-    lng: "en",
+    lng: localStorage.getItem(LOCAL_STORAGE_LANGUAGE_KEY) || "en",
   });
   return (
     <TranslationsContext.Provider value={context}>
