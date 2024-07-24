@@ -30,6 +30,7 @@ import { HiddenSelect } from "@kobalte/core/select";
 import InputTooltip from "./components/InputTooltip";
 import LanguagePicker from "./components/LanguagePicker";
 import SkipLink from "./components/SkipLink";
+import { showToast } from "./components/ui/toast";
 
 const DEFAULT_FORM_VALUES = {
   data: "",
@@ -55,7 +56,17 @@ function App() {
           type: imageFormat,
         },
         (err, url) => {
-          if (err) throw err;
+          if (err) {
+            if (err.message.includes("amount of data is too big"))
+              return showToast({
+                variant: "error",
+                title: t("qr_code_data_too_large"),
+              });
+            return showToast({
+              variant: "error",
+              title: t("qr_code_unknown_error"),
+            });
+          }
           setImage(url);
         },
       );

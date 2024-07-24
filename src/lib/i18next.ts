@@ -21,7 +21,9 @@ export type TranslationKeys =
   | "qr_code_data_placeholder"
   | "generate_button"
   | "download_button"
-  | "qr_code_alt_text";
+  | "qr_code_alt_text"
+  | "qr_code_data_too_large"
+  | "qr_code_unknown_error";
 
 type Translation = Record<TranslationKeys, string>;
 
@@ -59,6 +61,10 @@ export const resources: Record<Languages, { translation: Translation }> = {
       generate_button: "Generate QR Code",
       download_button: "Download",
       qr_code_alt_text: "QR Code",
+      qr_code_data_too_large:
+        "The data provided for the QR Code is too large. Please reduce the amount of data",
+      qr_code_unknown_error:
+        "An unknown error has occurred while creating your QR Code. Please create an issue at https://github.com/julio-salas03/qr-codes/issues if it persists",
     },
   },
   es: {
@@ -94,6 +100,10 @@ export const resources: Record<Languages, { translation: Translation }> = {
       generate_button: "Generar código QR",
       download_button: "Descargar",
       qr_code_alt_text: "Código QR",
+      qr_code_data_too_large:
+        "Los datos proporcionados para el código QR exceden su capacidad máxima. Por favor, reduzca la cantidad de datos.",
+      qr_code_unknown_error:
+        "Ha ocurrido un error desconocido al crear tu código QR. Por favor, crea un problema en https://github.com/julio-salas03/qr-codes/issues si este persiste.",
     },
   },
 };
