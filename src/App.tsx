@@ -1,7 +1,11 @@
 import { createSignal, Show } from "solid-js";
 import { TextField, TextFieldTextArea } from "~/components/ui/text-field";
 import { Label } from "~/components/ui/label";
-import { ERROR_CORRECTION_LEVEL, IMAGE_FORMATS } from "./lib/const";
+import {
+  ERROR_CORRECTION_LEVEL,
+  ERROR_CORRECTION_LEVEL_LABELS,
+  IMAGE_FORMATS,
+} from "./lib/const";
 import QRCode from "qrcode";
 import { buttonVariants } from "~/components/ui/button";
 import { GitHub } from "./components/icons/github";
@@ -184,7 +188,9 @@ function App() {
                               class="cursor-pointer"
                               item={props.item}
                             >
-                              {props.item.rawValue.toUpperCase()}
+                              {ERROR_CORRECTION_LEVEL_LABELS[
+                                props.item.rawValue
+                              ]()}
                             </SelectItem>
                           )}
                           disallowEmptySelection
@@ -193,8 +199,12 @@ function App() {
                           <SelectTrigger
                             aria-label={t("error_correction_level_label")}
                           >
-                            <SelectValue<string>>
-                              {(state) => state.selectedOption().toUpperCase()}
+                            <SelectValue<ERROR_CORRECTION_LEVEL>>
+                              {(state) =>
+                                ERROR_CORRECTION_LEVEL_LABELS[
+                                  state.selectedOption()
+                                ]()
+                              }
                             </SelectValue>
                           </SelectTrigger>
                           <SelectContent />
