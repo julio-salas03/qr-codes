@@ -16,8 +16,6 @@ As mentioned before, I'm using [qrcode](https://www.npmjs.com/package/qrcode) fo
 
 ## Running the project locally
 
-You need to have `bun` installed on your machine to run this project. Check how to install it [here](https://bun.sh/). Once installed, follow these instructions:
-
 1. Clone the project
 
 ```bash
@@ -25,6 +23,8 @@ git clone git@github.com:julio-salas03/qr-codes.git
 ```
 
 2. Install the dependencies
+
+Preferably you'll want to use `bun` to install the dependencies, as that's the package manager I'm using, but you can use any other one you want. See how to install it [here](https://bun.sh/).
 
 ```bash
 bun install
