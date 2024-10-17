@@ -1,7 +1,7 @@
-import { JSX } from "solid-js";
-import { AlertCircle } from "./icons/alert-circle";
-import { PopoverTrigger, PopoverContent, Popover } from "./ui/popover";
-import { Title as PopoverTitle } from "@kobalte/core/popover";
+import { JSX } from 'solid-js';
+import { AlertCircle } from './icons/alert-circle';
+import { PopoverTrigger, PopoverContent, Popover } from './ui/popover';
+import { Title as PopoverTitle } from '@kobalte/core/popover';
 export type InputTooltipProps = {
   children: JSX.Element;
   title: string;

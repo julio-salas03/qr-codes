@@ -1,7 +1,7 @@
-import { JSX } from "solid-js";
+import { JSX } from 'solid-js';
 
 export function ArrowDown(props: {
-  classList?: JSX.CustomAttributes<SVGSVGElement>["classList"];
+  classList?: JSX.CustomAttributes<SVGSVGElement>['classList'];
 }) {
   return (
     <svg

@@ -1,6 +1,6 @@
-import { createContext, createSignal, JSX, useContext } from "solid-js";
-import i18next, { type InitOptions, type TFunction, type i18n } from "i18next";
-import { resources } from "~/lib/i18next";
+import { createContext, createSignal, JSX, useContext } from 'solid-js';
+import i18next, { type InitOptions, type TFunction, type i18n } from 'i18next';
+import { resources } from '~/lib/i18next';
 
 type ContextTFunction = TFunction | (() => void);
 
@@ -11,14 +11,14 @@ type TranslationsContextProps = {
 
 const TranslationsContext = createContext<TranslationsContextProps>();
 
-const LOCAL_STORAGE_LANGUAGE_KEY = "language";
+const LOCAL_STORAGE_LANGUAGE_KEY = 'language';
 
 const createTranslationsContext = (instance: i18n, options: InitOptions) => {
   const [translate, setTranslate] = createSignal<TFunction | (() => null)>(
-    options.resources ? instance.t : () => null,
+    options.resources ? instance.t : () => null
   );
 
-  instance.on("loaded", () => setTranslate(() => instance.t));
+  instance.on('loaded', () => setTranslate(() => instance.t));
   instance.init(options, (_, t) => setTranslate(() => t));
 
   const changeLanguage = async (lng: string) => {
@@ -41,7 +41,7 @@ type TranslationsProviderProps = {
 export const TranslationsProvider = (props: TranslationsProviderProps) => {
   const context = createTranslationsContext(props.instance || i18next, {
     resources,
-    lng: localStorage.getItem(LOCAL_STORAGE_LANGUAGE_KEY) || "en",
+    lng: localStorage.getItem(LOCAL_STORAGE_LANGUAGE_KEY) || 'en',
   });
   return (
     <TranslationsContext.Provider value={context}>

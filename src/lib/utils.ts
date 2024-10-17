@@ -1,16 +1,16 @@
-import type { ClassValue } from "clsx";
-import { clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
-import { resources, TranslationKeys } from "~/lib/i18next";
-import { useTranslationsContext } from "~/components/context/Translations";
+import type { ClassValue } from 'clsx';
+import { clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+import { resources, TranslationKeys } from '~/lib/i18next';
+import { useTranslationsContext } from '~/components/context/Translations';
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
 export function download(url: string) {
-  const a = document.createElement("a");
+  const a = document.createElement('a');
   a.href = url;
-  a.download = url.split("/").pop()!;
+  a.download = url.split('/').pop()!;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
