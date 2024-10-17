@@ -25,6 +25,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: 'Create .env file'
+        run: |
+          echo "${{ secrets.ENV_FILE }}" > .env
+
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
